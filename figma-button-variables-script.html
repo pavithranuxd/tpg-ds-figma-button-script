@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Figma Variables Script — Button Component</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Inter:wght@400;450;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+
+:root {
+  color-scheme: light;
+  --color-primary: #1A1611;
+  --color-on-primary: #FAF8F4;
+  --color-secondary: #4A4239;
+  --color-accent: #E8552B;
+  --color-accent-strong: #C8431F;
+  --color-accent-press: #A8330F;
+  --color-on-accent: #FFFFFF;
+  --color-background: #FAF8F4;
+  --color-surface: #FFFFFF;
+  --color-surface-2: #F3EFE8;
+  --color-foreground: #1A1611;
+  --color-muted: #6E6456;
+  --color-border: rgba(22,19,15,0.08);
+  --color-border-strong: rgba(22,19,15,0.15);
+  --color-success: #2E7D52;
+  --color-on-success: #FFFFFF;
+  --color-warning: #B5791A;
+  --color-on-warning: #1A1611;
+  --color-destructive: #C0392B;
+  --color-on-destructive: #FFFFFF;
+  --color-ring: rgba(232,85,43,0.25);
+  --font-heading: 'Fraunces', Georgia, serif;
+  --font-body: 'Inter', system-ui, sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, monospace;
+  --t-h1: clamp(2.25rem, 4vw, 3.25rem);
+  --t-h2: clamp(1.5rem, 2.4vw, 2rem);
+  --t-h3: 1.25rem;
+  --t-body: 1.0625rem;
+  --t-sm: 0.875rem;
+  --t-xs: 0.75rem;
+  --s1: 4px; --s2: 8px; --s3: 12px; --s4: 16px; --s5: 24px; --s6: 32px; --s7: 48px;
+  --r-sm: 8px; --r-md: 12px; --r-lg: 18px; --r-full: 999px;
+  --shadow-sm: 0 1px 2px #16130F0d, 0 1px 1px #16130F08;
+  --shadow-md: 0 4px 12px #16130F12, 0 2px 4px #16130F0a;
+  --ease-out: cubic-bezier(.16,1,.3,1);
+}
+[data-theme="dark"] {
+  color-scheme: dark;
+  --color-primary: #F4EFE7; --color-on-primary: #100E0B;
+  --color-secondary: #C9C0B2; --color-accent: #FF6B40;
+  --color-accent-strong: #FF6B40; --color-accent-press: #FF855F;
+  --color-on-accent: #1A1611; --color-background: #100E0B;
+  --color-surface: #18140F; --color-surface-2: #211C15;
+  --color-foreground: #F4EFE7; --color-muted: #9E9482;
+  --color-border: rgba(250,248,244,0.12); --color-border-strong: rgba(250,248,244,0.20);
+  --color-success: #57BE89; --color-on-success: #10231A;
+  --color-warning: #D9A441; --color-on-warning: #241A08;
+  --color-destructive: #E07065; --color-on-destructive: #2A0F0C;
+  --color-ring: rgba(255,107,64,0.30);
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    color-scheme: dark;
+    --color-primary: #F4EFE7; --color-on-primary: #100E0B;
+    --color-secondary: #C9C0B2; --color-accent: #FF6B40;
+    --color-accent-strong: #FF6B40; --color-accent-press: #FF855F;
+    --color-on-accent: #1A1611; --color-background: #100E0B;
+    --color-surface: #18140F; --color-surface-2: #211C15;
+    --color-foreground: #F4EFE7; --color-muted: #9E9482;
+    --color-border: rgba(250,248,244,0.12); --color-border-strong: rgba(250,248,244,0.20);
+    --color-success: #57BE89; --color-on-success: #10231A;
+    --color-warning: #D9A441; --color-on-warning: #241A08;
+    --color-destructive: #E07065; --color-on-destructive: #2A0F0C;
+    --color-ring: rgba(255,107,64,0.30);
+  }
+}
+
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  font-family: var(--font-body);
+  background: var(--color-background);
+  color: var(--color-foreground);
+  padding: var(--s6) var(--s5) var(--s7);
+}
+.wrap { max-width: 980px; margin: 0 auto; }
+header h1 {
+  font-family: var(--font-heading);
+  font-size: var(--t-h1);
+  font-weight: 600;
+  margin: 0 0 var(--s2);
+}
+header p.sub {
+  color: var(--color-muted);
+  font-size: var(--t-body);
+  margin: 0 0 var(--s2);
+}
+header .meta {
+  font-family: var(--font-mono);
+  font-size: var(--t-xs);
+  color: var(--color-muted);
+  background: var(--color-surface-2);
+  border: 1px solid var(--color-border);
+  border-radius: var(--r-sm);
+  padding: var(--s2) var(--s3);
+  display: inline-block;
+  margin-bottom: var(--s5);
+}
+
+.tabs {
+  display: flex;
+  gap: var(--s2);
+  border-bottom: 1px solid var(--color-border-strong);
+  margin-bottom: var(--s5);
+}
+.tab-btn {
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: var(--t-sm);
+  color: var(--color-muted);
+  background: none;
+  border: none;
+  padding: var(--s3) var(--s4);
+  cursor: pointer;
+  border-bottom: 2px solid transparent;
+  transition: color .15s var(--ease-out), border-color .15s var(--ease-out);
+}
+.tab-btn:hover { color: var(--color-foreground); }
+.tab-btn.active {
+  color: var(--color-accent);
+  border-bottom-color: var(--color-accent);
+}
+.tab-btn .dur {
+  display: block;
+  font-family: var(--font-mono);
+  font-weight: 400;
+  font-size: var(--t-xs);
+  color: var(--color-muted);
+  margin-top: 2px;
+}
+
+.panel { display: none; }
+.panel.active { display: block; animation: fade .2s var(--ease-out); }
+@keyframes fade { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: translateY(0); } }
+
+.section {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--r-lg);
+  padding: var(--s5);
+  margin-bottom: var(--s5);
+  box-shadow: var(--shadow-sm);
+}
+.section h2 {
+  font-family: var(--font-heading);
+  font-size: var(--t-h3);
+  margin: 0 0 var(--s2);
+  color: var(--color-accent-strong);
+}
+.section .note {
+  background: var(--color-surface-2);
+  border-left: 3px solid var(--color-accent);
+  border-radius: var(--r-sm);
+  padding: var(--s3) var(--s4);
+  font-size: var(--t-sm);
+  color: var(--color-secondary);
+  margin-bottom: var(--s4);
+}
+.group-label {
+  display: inline-block;
+  font-family: var(--font-mono);
+  font-size: var(--t-xs);
+  font-weight: 600;
+  padding: var(--s1) var(--s3);
+  border-radius: var(--r-full);
+  margin-bottom: var(--s3);
+}
+.group-label.global { background: color-mix(in srgb, var(--color-success) 15%, transparent); color: var(--color-success); }
+.group-label.custom { background: color-mix(in srgb, var(--color-accent) 15%, transparent); color: var(--color-accent-strong); }
+
+.row {
+  display: grid;
+  grid-template-columns: 140px 1fr;
+  gap: var(--s4);
+  padding: var(--s4) 0;
+  border-top: 1px solid var(--color-border);
+}
+.row:first-of-type { border-top: none; }
+.row .vo { font-size: var(--t-body); line-height: 1.5; }
+.row .meta-col {
+  font-family: var(--font-mono);
+  font-size: var(--t-xs);
+  color: var(--color-muted);
+}
+.row .meta-col .action { display: block; margin-top: var(--s2); color: var(--color-secondary); }
+.row .meta-col .panel-tag {
+  display: inline-block;
+  margin-top: var(--s2);
+  background: var(--color-surface-2);
+  border: 1px solid var(--color-border);
+  border-radius: var(--r-sm);
+  padding: 2px var(--s2);
+}
+
+.guide {
+  background: var(--color-surface-2);
+  border-radius: var(--r-md);
+  padding: var(--s4) var(--s5);
+  font-size: var(--t-sm);
+  color: var(--color-secondary);
+}
+.guide h3 { margin-top: 0; font-family: var(--font-heading); font-size: 1.05rem; }
+
+code { font-family: var(--font-mono); font-size: 0.92em; background: var(--color-surface-2); padding: 1px 5px; border-radius: 4px; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1>Figma Variables — Button Component</h1>
+    <p class="sub">Video script: Primitive → Brand → Semantic → Mapped, global vs component-specific tokens, live button build.</p>
+    <span class="meta">source: TPG DS Documentation / 30 Jun.json — collections: primitives, brand, semantics, mapped-tpg (light/dark)</span>
+  </header>
+
+  <div class="tabs">
+    <button class="tab-btn active" data-tab="short">Short<span class="dur">3–5 min</span></button>
+    <button class="tab-btn" data-tab="standard">Standard<span class="dur">8–12 min</span></button>
+    <button class="tab-btn" data-tab="deep">Deep-dive<span class="dur">15–20 min</span></button>
+  </div>
+
+  <!-- SHORT -->
+  <div class="panel active" id="short">
+    <div class="section">
+      <h2>Intro</h2>
+      <div class="row"><div class="meta-col">VO</div><div class="vo">"We're building a Button component the right way — through the token chain: Primitive, Brand, Semantic, Mapped. By the end you'll know exactly where a new value belongs."<span class="action">Title card → cut to empty Figma file</span></div></div>
+    </div>
+
+    <div class="section">
+      <h2>Section A — The chain (colour only)</h2>
+      <div class="note">This chain applies to <strong>colour only</strong>. Padding, gap, radius skip Primitive/Brand/Semantic and are created directly inside the component's Mapped group — see Section C.</div>
+      <div class="row"><div class="meta-col">Primitive<span class="panel-tag">primitives</span></div><div class="vo">"Start at Primitive. Raw values, no meaning attached — just a purple."<span class="action">Open primitives → colour/tpg-purple/500</span></div></div>
+      <div class="row"><div class="meta-col">Brand<span class="panel-tag">brand</span></div><div class="vo">"Brand takes that raw purple and gives it a role in the TPG brand — primary-1, shade 500."<span class="action">brand → tpg/color/primary-1/500 aliasing primitive</span></div></div>
+      <div class="row"><div class="meta-col">Semantic<span class="panel-tag">semantics</span></div><div class="vo">"Semantic gives it intent — this isn't 'purple' anymore, it's 'action, primary, default' in light mode."<span class="action">semantics → tpg/light/color/action/primary/default</span></div></div>
+      <div class="row"><div class="meta-col">Mapped<span class="panel-tag">mapped-tpg</span></div><div class="vo">"Last stop: Mapped — what components actually bind to. Colour lives in four groups at the root: surface, text, icon, border. These four are the global set, shared across every component."<span class="action">Expand mapped-tpg root groups</span></div></div>
+    </div>
+
+    <div class="section">
+      <h2>Section B — Global vs Component-specific</h2>
+      <span class="group-label global">Group 1 — Global</span>
+      <div class="row"><div class="meta-col">Rule<span class="panel-tag">surface / text / icon / border</span></div><div class="vo">"Group one: Global. These sit at the root of Mapped — surface, text, icon, border. If a component's colour spec matches one of these exactly, don't make a new token — alias straight to it."</div></div>
+      <span class="group-label custom">Group 2 — Component-specific</span>
+      <div class="row"><div class="meta-col">Rule<span class="panel-tag">component/button/*</span></div><div class="vo">"Group two: Component-specific. When a component's colour doesn't match anything in the global set, you create it inside the component's own group. Button gets its own surface/brand, surface/secondary, surface/white states — hover, pressed, disabled — none of which exist globally."<span class="action">Expand component/button/surface/*</span></div></div>
+    </div>
+
+    <div class="section">
+      <h2>Section C — Building the Button</h2>
+      <div class="row"><div class="meta-col">Build</div><div class="vo">"Draw the frame, auto-layout, label — standard component setup."<span class="action">Create frame → auto-layout → text "Button"</span></div></div>
+      <div class="row"><div class="meta-col">Values<span class="panel-tag">component/button/values</span></div><div class="vo">"Padding, gap, radius don't come from Primitive or Semantic. They're defined directly inside Mapped, under the component's own values group."<span class="action">padding/md, gap/xs, radius/sm</span></div></div>
+      <div class="row"><div class="meta-col">Bind</div><div class="vo">"Bind padding to auto-layout padding, gap to item spacing, radius to corner radius."</div></div>
+      <div class="row"><div class="meta-col">Wrap</div><div class="vo">"That's the full path: primitive raw value, brand identity, semantic intent, mapped usage — global where it matches, component-specific where it doesn't."</div></div>
+    </div>
+  </div>
+
+  <!-- STANDARD -->
+  <div class="panel" id="standard">
+    <div class="section">
+      <h2>Intro</h2>
+      <div class="row"><div class="meta-col">VO</div><div class="vo">"We're building a Button component the right way — through the token chain: Primitive, Brand, Semantic, Mapped. By the end you'll know exactly where a new value belongs."<span class="action">Title card → empty Figma file</span></div></div>
+      <div class="row"><div class="meta-col">VO</div><div class="vo">"Two things trip people up: which tier owns a value, and when a component needs its own custom token vs reusing a global one. We'll cover both before touching the button."</div></div>
+    </div>
+
+    <div class="section">
+      <h2>Section A — The chain (colour only)</h2>
+      <div class="note">This chain applies to <strong>colour only</strong>. Padding, gap, radius skip Primitive/Brand/Semantic and are created directly inside the component's Mapped group — see Section C.</div>
+      <div class="row"><div class="meta-col">Primitive<span class="panel-tag">primitives</span></div><div class="vo">"Start at Primitive. Raw values, no meaning attached — just a purple."<span class="action">Open primitives → colour/tpg-purple/500</span></div></div>
+      <div class="row"><div class="meta-col">Brand<span class="panel-tag">brand</span></div><div class="vo">"Brand takes that raw purple and gives it a role in the TPG brand — primary-1, shade 500."<span class="action">brand → tpg/color/primary-1/500 aliasing primitive</span></div></div>
+      <div class="row"><div class="meta-col">Semantic<span class="panel-tag">semantics</span></div><div class="vo">"Semantic gives it intent — this isn't 'purple' anymore, it's 'action, primary, default' in light mode."<span class="action">semantics → tpg/light/color/action/primary/default</span></div></div>
+      <div class="row"><div class="meta-col">Trace #2<span class="panel-tag">neutral example</span></div><div class="vo">"Same chain for a neutral — white primitive, global/neutral/white in brand, resolves to border/inverse in semantic."<span class="action">colour/monochrome/white → global/neutral/white → tpg/light/color/border/inverse</span></div></div>
+      <div class="row"><div class="meta-col">Mapped<span class="panel-tag">mapped-tpg</span></div><div class="vo">"Last stop: Mapped — what components actually bind to. Colour lives in four groups at the root: surface, text, icon, border. These four are the global set, shared across every component."<span class="action">Expand mapped-tpg root groups</span></div></div>
+    </div>
+
+    <div class="section">
+      <h2>Section B — Global vs Component-specific</h2>
+      <span class="group-label global">Group 1 — Global (mapped/surface, text, icon, border)</span>
+      <div class="row"><div class="meta-col">Rule</div><div class="vo">"Group one: Global. These sit at the root of Mapped — surface, text, icon, border. If a component's colour spec matches one of these exactly, don't make a new token — alias straight to it."</div></div>
+      <div class="row"><div class="meta-col">Example</div><div class="vo">"When a button border matches the shared border style, you alias the global border/primary/default token instead of making a new one. No duplication."<span class="action">border reuses root border/primary/default</span></div></div>
+      <span class="group-label custom">Group 2 — Component-specific (mapped/component/*)</span>
+      <div class="row"><div class="meta-col">Rule</div><div class="vo">"Group two: Component-specific. When a component's colour doesn't match anything in the global set, you create it inside the component's own group. Button gets its own surface/brand, surface/secondary, surface/white states — hover, pressed, disabled — none of which exist globally."<span class="action">component/button/surface/brand, secondary, success, white</span></div></div>
+      <div class="row"><div class="meta-col">Decision rule</div><div class="vo">"Spec matches global → alias global. Spec is custom to this component → create it inside component/&lt;name&gt;/..."</div></div>
+    </div>
+
+    <div class="section">
+      <h2>Section C — Building the Button</h2>
+      <div class="row"><div class="meta-col">Build</div><div class="vo">"Draw the frame, auto-layout, label — standard component setup."<span class="action">Create frame → auto-layout → text "Button"</span></div></div>
+      <div class="row"><div class="meta-col">Values<span class="panel-tag">component/button/values</span></div><div class="vo">"Padding, gap, radius don't come from Primitive or Semantic. They're defined directly inside Mapped, under the component's own values group."<span class="action">padding/md, gap/xs, radius/sm</span></div></div>
+      <div class="row"><div class="meta-col">Bind</div><div class="vo">"Bind padding to auto-layout padding, gap to item spacing, radius to corner radius."</div></div>
+      <div class="row"><div class="meta-col">Colour</div><div class="vo">"Default state — is brand primary already covered by the global surface group? No — button's brand states are unique, so they live in component/button/surface/brand/*."<span class="action">Bind fill → component/button/surface/brand/brand</span></div></div>
+      <div class="row"><div class="meta-col">Label/Icon</div><div class="vo">"Label colour, icon colour — same check each time: global first, component-specific only if it doesn't match."<span class="action">label/primary, icon/default</span></div></div>
+      <div class="row"><div class="meta-col">Wrap</div><div class="vo">"That's the full path: primitive raw value, brand identity, semantic intent, mapped usage — global where it matches, component-specific where it doesn't."</div></div>
+    </div>
+  </div>
+
+  <!-- DEEP -->
+  <div class="panel" id="deep">
+    <div class="section">
+      <h2>Intro</h2>
+      <div class="row"><div class="meta-col">VO</div><div class="vo">"We're building a Button component the right way — through the token chain: Primitive, Brand, Semantic, Mapped. By the end you'll know exactly where a new value belongs."<span class="action">Title card → empty Figma file</span></div></div>
+      <div class="row"><div class="meta-col">VO</div><div class="vo">"Two things trip people up: which tier owns a value, and when a component needs its own custom token vs reusing a global one. We'll cover both before touching the button."</div></div>
+    </div>
+
+    <div class="section">
+      <h2>Section A — The chain (colour only)</h2>
+      <div class="note">This chain applies to <strong>colour only</strong>. Padding, gap, radius skip Primitive/Brand/Semantic and are created directly inside the component's Mapped group — see Section C.</div>
+      <div class="row"><div class="meta-col">Primitive<span class="panel-tag">primitives</span></div><div class="vo">"Start at Primitive. Raw values, no meaning attached — just a purple."<span class="action">Open primitives → colour/tpg-purple/500</span></div></div>
+      <div class="row"><div class="meta-col">Brand<span class="panel-tag">brand</span></div><div class="vo">"Brand takes that raw purple and gives it a role in the TPG brand — primary-1, shade 500."<span class="action">brand → tpg/color/primary-1/500 aliasing primitive</span></div></div>
+      <div class="row"><div class="meta-col">Semantic<span class="panel-tag">semantics</span></div><div class="vo">"Semantic gives it intent — this isn't 'purple' anymore, it's 'action, primary, default' in light mode."<span class="action">semantics → tpg/light/color/action/primary/default</span></div></div>
+      <div class="row"><div class="meta-col">Trace #2<span class="panel-tag">neutral example</span></div><div class="vo">"Same chain for a neutral — white primitive, global/neutral/white in brand, resolves to border/inverse in semantic."<span class="action">colour/monochrome/white → global/neutral/white → tpg/light/color/border/inverse</span></div></div>
+      <div class="row"><div class="meta-col">Mapped<span class="panel-tag">mapped-tpg</span></div><div class="vo">"Last stop: Mapped — what components actually bind to. Colour lives in four groups at the root: surface, text, icon, border. These four are the global set, shared across every component."<span class="action">Expand mapped-tpg root groups</span></div></div>
+      <div class="row"><div class="meta-col">Naming</div><div class="vo">"Naming convention through the chain: primitive is literal — colour/tpg-purple/500. Brand adds role — color/primary-1/500. Semantic adds intent and mode — light/color/action/primary/default. Mapped adds usage — surface/brand/primary/default. Read the name, know the tier."<span class="action">Side-by-side of all 4 names</span></div></div>
+    </div>
+
+    <div class="section">
+      <h2>Section B — Global vs Component-specific</h2>
+      <span class="group-label global">Group 1 — Global (mapped/surface, text, icon, border)</span>
+      <div class="row"><div class="meta-col">Rule</div><div class="vo">"Group one: Global. These sit at the root of Mapped — surface, text, icon, border. If a component's colour spec matches one of these exactly, don't make a new token — alias straight to it."</div></div>
+      <div class="row"><div class="meta-col">Example</div><div class="vo">"When a button border matches the shared border style, you alias the global border/primary/default token instead of making a new one. No duplication."<span class="action">border reuses root border/primary/default</span></div></div>
+      <span class="group-label custom">Group 2 — Component-specific (mapped/component/*)</span>
+      <div class="row"><div class="meta-col">Rule</div><div class="vo">"Group two: Component-specific. When a component's colour doesn't match anything in the global set, you create it inside the component's own group. Button gets its own surface/brand, surface/secondary, surface/white states — hover, pressed, disabled — none of which exist globally."<span class="action">component/button/surface/brand, secondary, success, white</span></div></div>
+      <div class="row"><div class="meta-col">Decision rule</div><div class="vo">"Spec matches global → alias global. Spec is custom to this component → create it inside component/&lt;name&gt;/..."</div></div>
+      <div class="row"><div class="meta-col">Mistake</div><div class="vo">"Common mistake: creating a component-specific token for something that already exists globally — you end up with five different tokens all resolving to the same white. Check the global group first, every time."<span class="action">Show a duplicate-token example, then the fix</span></div></div>
+    </div>
+
+    <div class="section">
+      <h2>Section C — Building the Button</h2>
+      <div class="row"><div class="meta-col">Build</div><div class="vo">"Draw the frame, auto-layout, label — standard component setup."<span class="action">Create frame → auto-layout → text "Button"</span></div></div>
+      <div class="row"><div class="meta-col">Values<span class="panel-tag">component/button/values</span></div><div class="vo">"Padding, gap, radius don't come from Primitive or Semantic. They're defined directly inside Mapped, under the component's own values group."<span class="action">padding/md, gap/xs, radius/sm</span></div></div>
+      <div class="row"><div class="meta-col">Bind</div><div class="vo">"Bind padding to auto-layout padding, gap to item spacing, radius to corner radius."</div></div>
+      <div class="row"><div class="meta-col">Colour</div><div class="vo">"Default state — is brand primary already covered by the global surface group? No — button's brand states are unique, so they live in component/button/surface/brand/*."<span class="action">Bind fill → component/button/surface/brand/brand</span></div></div>
+      <div class="row"><div class="meta-col">Label/Icon</div><div class="vo">"Label colour, icon colour — same check each time: global first, component-specific only if it doesn't match."<span class="action">label/primary, icon/default</span></div></div>
+      <div class="row"><div class="meta-col">Variants</div><div class="vo">"Build out the full variant set — brand, secondary, white/ghost, success — each with default, hover, pressed, disabled bound to their matching mapped token."<span class="action">Create variant properties: type, state</span></div></div>
+      <div class="row"><div class="meta-col">Dark mode<span class="panel-tag">mapped-tpg: light/dark</span></div><div class="vo">"Dark mode check — Mapped has light and dark modes. Switch the mode selector and confirm every bound token resolves correctly without manual overrides."<span class="action">Toggle mode switcher light → dark</span></div></div>
+      <div class="row"><div class="meta-col">Wrap</div><div class="vo">"That's the full path: primitive raw value, brand identity, semantic intent, mapped usage — global where it matches, component-specific where it doesn't. Same process for your next component."</div></div>
+    </div>
+  </div>
+
+  <div class="guide">
+    <h3>Cut-length guide</h3>
+    <p><strong>Short:</strong> intro + core rows from A/B/C only. <strong>Standard:</strong> adds full alias trace, decision-rule callouts, label/icon binding. <strong>Deep-dive:</strong> adds naming convention, common mistake, full variant matrix, dark mode verification.</p>
+  </div>
+</div>
+
+<script>
+document.querySelectorAll('.tab-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+    btn.classList.add('active');
+    document.getElementById(btn.dataset.tab).classList.add('active');
+  });
+});
+</script>
+</body>
+</html>
